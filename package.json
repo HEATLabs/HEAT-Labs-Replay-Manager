@@ -1,0 +1,60 @@
+{
+  "name": "heatlabs-replaymanager",
+  "version": "1.0.0",
+  "description": "HEAT Labs Replay Manager - Desktop Application by HEAT Labs Team",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --config.asar=false",
+    "build-win": "electron-builder --win --config.asar=false",
+    "build-mac": "electron-builder --mac --config.asar=false",
+    "build-linux": "electron-builder --linux --config.asar=false",
+    "dist": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "com.heatlabs.stattracker",
+    "productName": "HEATLabs-StatTracker",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "keywords": [
+    "World of Tanks: HEAT",
+    "replay manager",
+    "gaming",
+    "analytics"
+  ],
+  "author": "HEAT Labs Team",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  }
+}

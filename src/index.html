@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEAT Labs Replay Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://views.heatlabs.net https://cdn5.heatlabs.net;">
+  </head>
+  <body>
+    <!-- Tracking Pixel -->
+    <img src="https://views.heatlabs.net/api/track/replaymanager-app.png" alt="HEAT Labs Tracking View Counter" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" class="heatlabs-tracking-pixel" data-page="replaymanager-app">
+    <!-- Custom Title Bar -->
+    <div class="title-bar">
+      <div class="title-bar-left">
+        <img class="title-bar-icon" src="https://cdn5.heatlabs.net/logo/logo.webp" alt="HEATLabs">
+        <span class="title-bar-title">HEAT Labs Replay Manager - v1.0.0</span>
+      </div>
+      <div class="title-bar-controls">
+        <button class="title-bar-button minimize-btn" id="minimizeBtn">
+          <svg width="12" height="12" viewBox="0 0 12 12">
+            <rect x="1" y="5" width="10" height="1" fill="currentColor" />
+          </svg>
+        </button>
+        <button class="title-bar-button maximize-btn" id="maximizeBtn">
+          <svg width="12" height="12" viewBox="0 0 12 12">
+            <path d="M1 1h10v10H1z" fill="none" stroke="currentColor" />
+          </svg>
+        </button>
+        <button class="title-bar-button close-btn" id="closeBtn">
+          <svg width="12" height="12" viewBox="0 0 12 12">
+            <path d="M1 1l10 10M1 11L11 1" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+      <div class="splash-content">
+        <img id="splash-logo" class="splash-logo" src="https://cdn5.heatlabs.net/logo/logo.webp" alt="HEATLabs Logo">
+        <div class="splash-text">
+          <h1>HEAT Labs Replay Manager</h1>
+          <p>World of Tanks: HEAT Replay Manager System</p>
+          <p>Created by the HEAT Labs Team</p>
+        </div>
+      </div>
+    </div>
+    <!-- Main Application -->
+    <div id="main-app" class="main-app">
+      <div class="app-main">
+        <div class="coming-soon-container">
+          <div class="coming-soon-content">
+            <div class="coming-soon-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+                <path d="M12 8v4l2 2" />
+              </svg>
+            </div>
+            <h1>Coming Soon</h1>
+            <p>Our Replay Manager is currently in development.</p>
+            <p class="coming-soon-sub">Stay tuned for updates from the HEAT Labs Team.</p>
+            <div class="coming-soon-footer">
+              <span>Follow us:</span>
+              <a href="https://heatlabs.net" target="_blank">Website</a>
+              <a href="https://discord.heatlabs.net" target="_blank">Discord</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>
