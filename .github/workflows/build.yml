@@ -1,0 +1,71 @@
+name: Build and Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Clean up build artifacts
+        run: |
+          Remove-Item -Path "dist\builder-debug.yml" -ErrorAction SilentlyContinue
+          Remove-Item -Path "dist\latest.yml" -ErrorAction SilentlyContinue
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows
+          path: dist/*.exe
+          if-no-files-found: error
+
+  release:
+    needs: build-windows
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-windows
+          path: artifacts/build-windows
+        continue-on-error: true
+
+      - name: Create release tag
+        id: tag
+        run: |
+          TAG_NAME="HEATLabs-ReplayManager-v$(date +'%Y%m%d%H%M%S')"
+          echo "Tagging with $TAG_NAME"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a $TAG_NAME -m "Release created on $(date) by GitHub Actions"
+          git push origin $TAG_NAME
+          echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          files: artifacts/build-windows/*
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
