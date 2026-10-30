@@ -13,8 +13,8 @@
     "dist": "electron-builder --publish=never"
   },
   "build": {
-    "appId": "com.heatlabs.stattracker",
-    "productName": "HEATLabs-StatTracker",
+    "appId": "com.heatlabs.replaymanager",
+    "productName": "HEATLabs-ReplayManager",
     "directories": {
       "output": "dist"
     },

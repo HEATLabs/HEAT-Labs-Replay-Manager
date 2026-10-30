@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEAT Labs Replay Manager</title>
+    <title>Replay Manager - HEAT Labs</title>
     <link rel="stylesheet" href="styles.css">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://views.heatlabs.net https://cdn5.heatlabs.net;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://views.heatlabs.net https://cdn5.heatlabs.net https://cdn8.heatlabs.net https://cdn1.heatlabs.net;">
   </head>
   <body>
-    <!-- Tracking Pixel -->
-    <img src="https://views.heatlabs.net/api/track/replaymanager-app.png" alt="HEAT Labs Tracking View Counter" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" class="heatlabs-tracking-pixel" data-page="replaymanager-app">
+    <!-- Custom Privacy-Focused Tracking Pixel -->
+    <img src="https://views.heatlabs.net/api/track/replay-manager-app.png" alt="HEAT Labs Tracking View Counter" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" class="heatlabs-tracking-pixel" data-page="replay-manager-app">
     <!-- Custom Title Bar -->
     <div class="title-bar">
       <div class="title-bar-left">
         <img class="title-bar-icon" src="https://cdn5.heatlabs.net/logo/logo.webp" alt="HEATLabs">
-        <span class="title-bar-title">HEAT Labs Replay Manager - v1.0.0</span>
+        <span class="title-bar-title">Replay Manager - v1.0.0</span>
       </div>
       <div class="title-bar-controls">
         <button class="title-bar-button minimize-btn" id="minimizeBtn">
@@ -39,32 +39,270 @@
       <div class="splash-content">
         <img id="splash-logo" class="splash-logo" src="https://cdn5.heatlabs.net/logo/logo.webp" alt="HEATLabs Logo">
         <div class="splash-text">
-          <h1>HEAT Labs Replay Manager</h1>
-          <p>World of Tanks: HEAT Replay Manager System</p>
+          <h1>Replay Manager</h1>
+          <p>World of Tanks: HEAT Replay Browser</p>
           <p>Created by the HEAT Labs Team</p>
         </div>
       </div>
     </div>
+    <!-- Global Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" hidden>
+      <div class="loading-spinner"></div>
+      <p id="loadingText" class="loading-text">Loading...</p>
+    </div>
     <!-- Main Application -->
     <div id="main-app" class="main-app">
-      <div class="app-main">
-        <div class="coming-soon-container">
-          <div class="coming-soon-content">
-            <div class="coming-soon-icon">
-              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                <path d="M12 8v4l2 2" />
-              </svg>
+      <!-- Configuration Content -->
+      <div id="config-content" class="config-content">
+        <div class="settings-container">
+          <!-- Sidebar -->
+          <div class="settings-tabs">
+            <button class="tab-btn active" data-tab="replays">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg> Replays <span class="tab-info-btn" data-tab="replays" title="More info about this section">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="12" x2="12" y2="16" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+              </span>
+            </button>
+            <button class="tab-btn" data-tab="archive">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 8v13H3V8" />
+                <path d="M1 3h22v5H1z" />
+                <path d="M10 12h4" />
+              </svg> Archive <span class="tab-info-btn" data-tab="archive" title="More info about this section">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="12" x2="12" y2="16" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+              </span>
+            </button>
+            <button class="tab-btn" data-tab="options">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg> Options <span class="tab-info-btn" data-tab="options" title="More info about this section">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="12" x2="12" y2="16" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+              </span>
+            </button>
+          </div>
+          <!-- Tab Content -->
+          <div class="tab-content active" id="replays-tab">
+            <div class="replay-toolbar">
+              <div class="replay-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" id="filterInput" class="search-input" placeholder="Search replays...">
+              </div>
+              <div class="replay-controls">
+                <select id="sortField" class="marker-dropdown">
+                  <option value="date">Date</option>
+                  <option value="map">Map</option>
+                  <option value="mode">Mode</option>
+                  <option value="size">Size</option>
+                  <option value="filename">Filename</option>
+                </select>
+                <button id="sortDirection" class="btn-secondary" type="button">Newest First</button>
+                <button id="refreshReplays" class="btn-primary" type="button">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                  </svg> Refresh </button>
+              </div>
             </div>
-            <h1>Coming Soon</h1>
-            <p>Our Replay Manager is currently in development.</p>
-            <p class="coming-soon-sub">Stay tuned for updates from the HEAT Labs Team.</p>
-            <div class="coming-soon-footer">
-              <span>Follow us:</span>
-              <a href="https://heatlabs.net" target="_blank">Website</a>
-              <a href="https://discord.heatlabs.net" target="_blank">Discord</a>
+            <div id="statusBanner" class="banner" hidden></div>
+            <div class="replay-list-header" id="replaysListHeader">
+              <span class="col-star"></span>
+              <span class="col-name" hidden>Name</span>
+              <span>Map</span>
+              <span>Mode</span>
+              <span>Date</span>
+              <span>Size</span>
+              <span>Result</span>
+              <span></span>
+            </div>
+            <div id="replayRows" class="replay-rows"></div>
+            <div class="replay-footer">
+              <span id="diskUsage" class="muted"></span>
+              <div class="replay-footer-actions">
+                <button id="openGameFolder" class="btn-secondary" type="button">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                  </svg> Open Replays Folder </button>
+                <button id="openArchiveFolder" class="btn-secondary" type="button">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 8v13H3V8" />
+                    <path d="M1 3h22v5H1z" />
+                    <path d="M10 12h4" />
+                  </svg> Open Archive Folder </button>
+              </div>
             </div>
           </div>
+          <div class="tab-content" id="archive-tab">
+            <div id="archiveBanner" class="banner" hidden></div>
+            <div class="replay-list-header replay-list-header--archive" id="archiveListHeader">
+              <span class="col-name" hidden>Name</span>
+              <span>Map</span>
+              <span>Mode</span>
+              <span>Date</span>
+              <span>Size</span>
+              <span>Result</span>
+              <span></span>
+            </div>
+            <div id="archiveRows" class="replay-rows"></div>
+            <div class="replay-footer">
+              <span id="archiveDiskUsage" class="muted"></span>
+            </div>
+          </div>
+          <div class="tab-content" id="options-tab">
+            <div class="settings-group">
+              <h4>Game Installation</h4>
+              <div class="setting-item">
+                <div class="setting-label">Game Install Directory</div>
+                <div class="setting-control">
+                  <input type="text" id="installDirInput" class="path-input" readonly placeholder="Auto-detecting...">
+                  <button id="browseInstallDir" class="btn-primary">Browse</button>
+                  <button id="clearInstallDir" class="btn-secondary">Clear</button>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div class="setting-label">Detected Clients</div>
+                <div class="setting-control">
+                  <span id="detectedClientsCount" class="muted">Scanning...</span>
+                </div>
+              </div>
+              <div class="setting-item">
+                <div class="setting-label">Active Client</div>
+                <div class="setting-control">
+                  <span id="activeClient" class="muted">None</span>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group">
+              <h4>Archive Location</h4>
+              <div class="setting-item">
+                <div class="setting-label">Archive Directory</div>
+                <div class="setting-control">
+                  <input type="text" id="archiveDirInput" class="path-input" readonly placeholder="Default (replays/archived)">
+                  <button id="browseArchiveDir" class="btn-primary">Browse</button>
+                  <button id="clearArchiveDir" class="btn-secondary">Clear</button>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group">
+              <h4>Client Selection</h4>
+              <div class="setting-item">
+                <div class="setting-label">Preferred Client</div>
+                <div class="setting-control">
+                  <select id="clientSelect" class="marker-dropdown">
+                    <option value="">Automatic</option>
+                  </select>
+                </div>
+              </div>
+              <p class="options-description" id="clientsFound"></p>
+            </div>
+            <div class="settings-group">
+              <h4>Application</h4>
+              <div class="setting-item">
+                <div class="setting-label">Save Settings</div>
+                <div class="setting-control">
+                  <button id="saveSettingsBtn" class="btn-success">Save Settings</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Detail Pane (floating) -->
+    <div id="detailPane" class="detail-pane" hidden></div>
+    <!-- Welcome Overlay -->
+    <div id="welcomeOverlay" class="modal" hidden>
+      <div class="modal-content">
+        <h3>Welcome to Replay Manager</h3>
+        <p>Browse, play, and archive your World of Tanks: HEAT replays.</p>
+        <p id="welcomeBody3">Your installed clients and replay folder are auto-detected on startup.</p>
+        <div class="modal-actions">
+          <button id="welcomeDismissBtn" class="btn-primary">Get Started</button>
+        </div>
+      </div>
+    </div>
+    <!-- Controls Help Overlay -->
+    <div id="controlsOverlay" class="modal" hidden>
+      <div class="modal-content">
+        <h3>Playback Controls</h3>
+        <div class="controls-list">
+          <div class="control-item">
+            <kbd>Space</kbd> Pause/Resume
+          </div>
+          <div class="control-item">
+            <kbd>←</kbd>
+            <kbd>→</kbd> Seek backward/forward
+          </div>
+          <div class="control-item">
+            <kbd>F</kbd> Toggle free camera
+          </div>
+          <div class="control-item">
+            <kbd>Tab</kbd> Toggle HUD
+          </div>
+          <div class="control-item">
+            <kbd>Esc</kbd> Exit replay
+          </div>
+        </div>
+        <p class="muted" style="margin-top: 1rem; font-size: 0.85rem;">Keep this app window open while you watch the replay.</p>
+        <div class="modal-actions">
+          <button id="controlsDismissBtn" class="btn-primary">Got It</button>
+        </div>
+      </div>
+    </div>
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Confirm Action</h3>
+        <p id="modalMessage">Are you sure?</p>
+        <div class="modal-actions">
+          <button id="modalCancel" class="btn-secondary">Cancel</button>
+          <button id="modalConfirm" class="btn-danger">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <!-- Rename Modal -->
+    <div id="renameModal" class="modal">
+      <div class="modal-content">
+        <h3>Rename Replay</h3>
+        <p class="muted">Enter a custom display name (max 20 characters).</p>
+        <input type="text" id="renameInput" class="rename-input" placeholder="New name..." maxlength="20">
+        <p class="rename-hint muted" id="renameCharCount">0 / 20</p>
+        <div class="modal-actions">
+          <button id="renameRevert" class="btn-secondary" type="button">Remove Name</button>
+          <button id="renameCancel" class="btn-secondary">Cancel</button>
+          <button id="renameConfirm" class="btn-primary">Rename</button>
+        </div>
+      </div>
+    </div>
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+      <div class="modal-content info-modal-content">
+        <div class="info-modal-header">
+          <h3 id="infoModalTitle">Section Info</h3>
+          <button id="infoModalClose" class="btn-close-modal">×</button>
+        </div>
+        <div id="infoModalBody" class="info-modal-body">
+          <p id="infoModalDescription">Section description goes here.</p>
+          <div id="infoModalDetails" class="info-modal-details"></div>
+        </div>
+        <div class="modal-actions">
+          <button id="infoModalOk" class="btn-primary">Got It</button>
         </div>
       </div>
     </div>

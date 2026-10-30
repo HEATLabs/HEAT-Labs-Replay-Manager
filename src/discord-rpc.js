@@ -47,7 +47,7 @@ class DiscordRichPresence {
 
         const presence = {
             details: customDetails || 'Using HEAT Labs Replay Manager',
-            state: customState || 'Viewing statistics',
+            state: customState || 'Viewing replays',
             startTimestamp: this.startTimestamp,
             largeImageKey: 'heatlabs_logo',
             largeImageText: 'HEAT Labs Replay Manager',
@@ -74,12 +74,12 @@ class DiscordRichPresence {
     updateWithStatus(status) {
         const statusMessages = {
             idle: {
-                details: 'Using HEAT Labs Stat Tracker',
+                details: 'Using HEAT Labs Replay Manager',
                 state: 'Idle'
             },
             viewing: {
                 details: 'Viewing statistics',
-                state: 'Browsing data'
+                state: 'Browsing replays'
             }
         };
 
