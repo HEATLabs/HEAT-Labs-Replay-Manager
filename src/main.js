@@ -499,7 +499,6 @@ function clearDisplayName(filename) {
 }
 
 // Replay Parsing
-
 const MAP_INDEX = {
     '01': {
         name: 'Scarred City',
@@ -542,7 +541,7 @@ const MAP_INDEX = {
         token: 'eden'
     },
     '11': {
-        name: 'Railgun',
+        name: 'Longshot',
         token: 'railgun'
     },
     '252': {
