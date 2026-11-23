@@ -1,6 +1,6 @@
 {
   "name": "heatlabs-replaymanager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "HEAT Labs Replay Manager - Desktop Application by HEAT Labs Team",
   "main": "src/main.js",
   "scripts": {

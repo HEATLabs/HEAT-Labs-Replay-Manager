@@ -20,9 +20,16 @@ const ReplayHelperModel = (function() {
     }
 
     function displayMode(row) {
+        // Prefer the pre-computed display name from main process
+        if (row && row.modeDisplay) return row.modeDisplay;
         const mode = row && row.mode;
         if (!mode) return '';
-        return mode.charAt(0).toUpperCase() + mode.slice(1);
+        // Fallback: title-case the raw token
+        return mode
+            .split(/[_\s]+/)
+            .filter(Boolean)
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(' ');
     }
 
     function tableResult(row) {
@@ -56,7 +63,15 @@ const ReplayHelperModel = (function() {
         const q = (query || '').trim().toLowerCase();
         if (!q) return rows.slice();
         return rows.filter((r) => {
-            const haystack = [r.filename, r.displayName, displayMap(r), r.mode, r.dateTime, r.battleResult]
+            const haystack = [
+                r.filename,
+                r.displayName,
+                displayMap(r),
+                r.mode,
+                r.modeDisplay,
+                r.dateTime,
+                r.battleResult
+            ]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
@@ -67,7 +82,7 @@ const ReplayHelperModel = (function() {
     const SORT_FIELDS = {
         date: (r) => r.dateTime || '',
         map: (r) => displayMap(r).toLowerCase(),
-        mode: (r) => (r.mode || '').toLowerCase(),
+        mode: (r) => (r.modeDisplay || r.mode || '').toLowerCase(),
         size: (r) => r.sizeBytes || 0,
         filename: (r) => r.filename || '',
     };

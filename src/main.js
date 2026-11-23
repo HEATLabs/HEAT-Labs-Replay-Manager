@@ -550,6 +550,34 @@ const MAP_INDEX = {
     },
 };
 
+// Mode display name overrides
+const MODE_INDEX = {
+    'ct2': 'Plant & Defuse',
+    'ct': 'Plant & Defuse',
+    'conquest': 'Conquest',
+    '20v20_Conquest': 'Conquest 20v20',
+    'Halloween_conquest': 'Conquest Halloween',
+    'control': 'Control',
+    'domination': 'Hardpoint',
+    'DataBreach': 'Data Breach',
+    'KillConfirm': 'Kill Confirmed',
+    'pve_ftue': 'FTUE',
+};
+
+// Convert a raw mode token into a display name
+function displayModeName(rawMode) {
+    if (!rawMode || typeof rawMode !== 'string') return '';
+    const normalized = rawMode.trim().toLowerCase();
+    if (!normalized) return '';
+    if (MODE_INDEX[normalized]) return MODE_INDEX[normalized];
+    // Fallback: title-case each word (split on _ and space)
+    return normalized
+        .split(/[_\s]+/)
+        .filter(Boolean)
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
 const FILENAME_RE = /^(\d+)_(.+?)_(\d{4})_(\d{2})_(\d{2})_(\d{2})_(\d{2})_(\d{2})_([0-9a-f]{6,8})(?:\s*(?:\(\d+\)|-\s*Copy(?:\s*\(\d+\))?))?\.replay$/i;
 
 const BUILD_RE = /build:\s*'([^']*)',\s*branch:\s*'([^']*)',\s*commit:\s*'([0-9a-fA-F]{40})'/;
@@ -578,6 +606,7 @@ function parseReplayFilename(filename) {
         mapName: null,
         mapRawRemainder: null,
         mode: null,
+        modeDisplay: null,
         dateTime: null,
         hash: null,
         verified: false,
@@ -603,6 +632,8 @@ function parseReplayFilename(filename) {
         result.mode = single ? single[2] : null;
         result.verified = false;
     }
+
+    result.modeDisplay = displayModeName(result.mode);
 
     return result;
 }
@@ -762,6 +793,7 @@ function buildEntry(filename, dir, origin, archived, displayNamesMap) {
         mapName: nameFields.mapName,
         mapRawRemainder: nameFields.mapRawRemainder,
         mode: nameFields.mode,
+        modeDisplay: nameFields.modeDisplay,
         hash: nameFields.hash,
         verified: nameFields.verified,
         parsed: nameFields.parsed,
